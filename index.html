@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<canvas id="canvas" width="600" height="600"></canvas>
+	<script type="text/javascript">
+  var canvas = document.getElementById('canvas');
+  var ctx = canvas.getContext('2d');
+  var raf;
+  var ball = {
+    x: 50,
+    y: 25,
+    vx:0,
+    vy:0,
+    radius: 25,
+    color: 'blue',
+    draw: function() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
+      ctx.closePath();
+      ctx.fillStyle = this.color;
+      ctx.fill();
+    }
+  };
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    if (ball.y + ball.vy + ball.radius> canvas.height ) {
+      ball.vy = -ball.vy;
+    }
+
+    if ( ball.y + ball.vy - ball.radius< 0) {
+      ball.vy = 0;
+    }
+
+    if (ball.x + ball.vx > canvas.width || ball.x + ball.vx < 0) {
+      ball.vx = -ball.vx;
+    }
+    ball.vy += .25;
+    ball.x += ball.vx;
+    ball.y += ball.vy;
+    ball.draw();
+    raf = window.requestAnimationFrame(draw);
+  }
+  raf = window.requestAnimationFrame(draw);
+  canvas.addEventListener('click', function(e){
+    ball.vy = -10;
+  });
+
+
+  ball.draw();
+	</script>
+</body>
+</html>
