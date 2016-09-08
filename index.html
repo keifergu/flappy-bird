@@ -6,25 +6,12 @@
 </head>
 <body>
 	<canvas id="canvas" width="600" height="600"></canvas>
+  <script type="text/javascript" src="./graphical.js"></script>
 	<script type="text/javascript">
   var canvas = document.getElementById('canvas');
   var ctx = canvas.getContext('2d');
   var raf;
-  var ball = {
-    x: 50,
-    y: 25,
-    vx:0,
-    vy:0,
-    radius: 25,
-    color: 'blue',
-    draw: function() {
-      ctx.beginPath();
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2, true);
-      ctx.closePath();
-      ctx.fillStyle = this.color;
-      ctx.fill();
-    }
-  };
+  var ball = new Circle(50, 25, 25);
 
   var obstacle = {
     width:100,
@@ -45,11 +32,11 @@
   function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    if (ball.y + ball.vy + ball.radius> canvas.height ) {
+    if (ball.y + ball.vy + ball.r> canvas.height ) {
       ball.vy = -ball.vy;
     }
 
-    if ( ball.y + ball.vy - ball.radius< 0) {
+    if ( ball.y + ball.vy - ball.r< 0) {
       ball.vy = 0;
     }
 
@@ -61,10 +48,12 @@
       obstacle.x = canvas.width;
       obstacle.height = Math.random()*400+1
     }
+
+    if (ball) {}
     ball.vy += .25;
     ball.x += ball.vx;
     ball.y += ball.vy;
-    ball.draw();
+    ball.draw(ctx);
     obstacle.x += obstacle.vx;
     obstacle.draw();
     raf = window.requestAnimationFrame(draw);
@@ -73,7 +62,6 @@
   canvas.addEventListener('click', function(e){
     ball.vy = -10;
   });
-
 
   ball.draw();
 	</script>
