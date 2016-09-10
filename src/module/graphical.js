@@ -21,9 +21,18 @@ Rect.prototype.draw = function (ctx) {
 	ctx.closePath();
 }
 
+Rect.prototype.set = function (obj) {
+	var objArr = Object.keys(obj);
+	for(var key in objArr) {
+		this[objArr[key]] = obj[objArr[key]];
+	}
+	return this;
+}
+
 Rect.prototype.move = function () {
 	this.x += this.vx;
 	this.y += this.vy;
+	return this;
 }
 
 var Circle = function (x, y, r) {
@@ -44,9 +53,11 @@ Circle.prototype.draw = function (ctx) {
 	return this;
 }
 
-Circle.prototype.setSpeed = function (vx, vy) {
-	this.vx = vx;
-	this.vy = vy;
+Circle.prototype.set = function (obj) {
+	var objArr = Object.keys(obj);
+	for(var key in objArr) {
+		this[objArr[key]] = obj[objArr[key]];
+	}
 	return this;
 }
 Circle.prototype.move = function () {

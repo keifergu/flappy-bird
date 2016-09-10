@@ -1,0 +1,25 @@
+{
+  "name": "flappy-bird",
+  "version": "0.0.1",
+  "description": "This is a HTML5 game",
+  "main": "index.html",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/keifergu/flappy-bird.git"
+  },
+  "keywords": [
+    "flappy"
+  ],
+  "author": "Keifer Gu",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/keifergu/flappy-bird/issues"
+  },
+  "homepage": "https://github.com/keifergu/flappy-bird#readme",
+  "dependencies": {
+    "webpack": "^1.13.2"
+  }
+}
