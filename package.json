@@ -20,11 +20,16 @@
   },
   "homepage": "https://github.com/keifergu/flappy-bird#readme",
   "dependencies": {
+    "eslint": "^3.5.0",
+    "eslint-plugin-import": "^1.14.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.2.1",
     "webpack": "^1.13.2"
   },
   "devDependencies": {
     "babel-core": "^6.14.0",
     "babel-loader": "^6.2.5",
-    "babel-preset-es2015": "^6.14.0"
+    "babel-preset-es2015": "^6.14.0",
+    "eslint-config-airbnb": "^11.1.0"
   }
 }
