@@ -5,49 +5,57 @@ class Shape {
 
 	// methods
 }
-export class Polygon extends Shape {
-
- 	constructor(x, y, width, height) {
- 		super();
-		this.x = x;
-		this.y = y;
-		this.vx = 0;
-		this.vy = 0;
-		this.width  = width;
-		this.height = height;
-		this.color  = 'black';
-		this.points = [[this.x, this.y],
-									 [this.x + this.width, y],
-									 [this.x + this.width, this.y + this.height],
-									 [this.x, this.y + this.height]];
-	}
-
-	setColor(color) {
-		this.colore = color;
-	}
-
-	draw(ctx) {
-		ctx.beginPath();
-		ctx.fillStyle = this.color;
-		ctx.fillRect(this.x, this.y, this.width, this.height);
-		ctx.closePath();
-	}
-
-	set(obj) {
-		var objArr = Object.keys(obj);
-		for(var key in objArr) {
-			this[objArr[key]] = obj[objArr[key]];
+export class Point {
+	constructor(...point) {
+		if (point[0] instanceof Vector) {
+			this.x = point[0].x;
+			this.y = point[0].y;
+		} else {
+			this.x = point[0];
+			this.y = point[1];
 		}
-		return this;
+	}
+}	
+export class Polygon extends Shape {
+	/**
+	 * 多边形类的构造函数
+	 * @param  {Array}  points   Point类型的数组
+	 * @param  {Object} velocity x轴和y轴的速度
+	 */
+ 	constructor(points = [], velocity = {x:10, y:10}) {
+ 		super();
+ 		this.points = points;
+ 		this.v = velocity;
+	}
+	/**
+	 * 为多边形添加一个点
+	 * @param {Number} x x轴位置
+	 * @param {Number} y y轴位置
+	 */
+	addPoint(x = 0, y = 0) {
+	    this.points.push(new Point(x, y));
 	}
 
-	move() {
-		this.x += this.vx;
-		this.y += this.vy;
-		return this;
+	move(dX, dY) {
+    this.points.forEach((point) => {
+        point.x += dX;
+        point.y += dY;
+    });
+	}
+
+	createPath(context) {
+    context.beginPath();
+    this.points.forEach((point) => {
+        context.lineTo(point.x, point.y);
+    });
+    context.closePath;
+	}
+
+	draw(context) {
+    this.createPath(context);
+    context.fill();
 	}
 }
-
 export class Circle extends Shape {
 	constructor(x, y, r) {
 		super();

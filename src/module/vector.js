@@ -1,4 +1,4 @@
-class Vector {
+export default class Vector {
 	constructor(...point) {
 		if (point[0] instanceof Vector) {
 			this.x = point[0].x;
@@ -43,5 +43,3 @@ class Vector {
 		return this.x * vector.x + this.y * vector.y;
 	}
 }
-
-module.exports = Vector;
