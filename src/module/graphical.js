@@ -15,7 +15,19 @@ export class Point {
 			this.y = point[1];
 		}
 	}
-}	
+}
+export class Line extends Shape {
+	constructor(...args) {
+		super();
+		if (args.length == 2) {
+			[[this.x, this.y], this.vector] = [...args];
+		} else {
+			[this.x, this.y, this.vector] = [...args];
+		}
+	}
+
+	// methods
+}
 export class Polygon extends Shape {
 	/**
 	 * 多边形类的构造函数
