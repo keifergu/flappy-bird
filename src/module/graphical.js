@@ -57,73 +57,34 @@ export class Polygon extends Shape {
 	}
 }
 export class Circle extends Shape {
-	constructor(x, y, r) {
+	/**
+	 * 圆形类的构造函数
+	 * @param  {Number} x        圆心的x坐标
+	 * @param  {Number} y        圆心的y坐标
+	 * @param  {Number} radius   半径
+	 * @param  {Object} velocity 速度
+	 */
+	constructor(x = 0, y = 0, radius = 0, velocity = {x:0, y:0}) {
 		super();
 		this.x = x;
 		this.y = y;
-		this.r = r;
-		this.vx = 0;
-		this.vy = 0;
-		this.color = 'blcak';
+		this.r = radius;
+		this.v = velocity;
 	}
 
-	draw(ctx) {
-		ctx.beginPath();
-		ctx.arc(this.x, this.y, this.r, 0, Math.PI*2, true);
-		ctx.closePath();
-		ctx.fillStyle = this.color;
-		ctx.fill();
-		return this;
+	move(dX, dY) {
+    this.x += dX;
+    this.y += dY;
 	}
 
-	set(obj) {
-		var objArr = Object.keys(obj);
-		for(var key in objArr) {
-			this[objArr[key]] = obj[objArr[key]];
-		}
-		return this;
+	createPath(context) {
+    context.beginPath();
+    context.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    context.closePath();
 	}
 
-	move() {
-		this.x += this.vx;
-		this.y += this.vy;
-		return this;
-	}
-
-	collision(graphical) {
-		if (graphical instanceof Rect) {
-			var rect = graphical,
-				rectPoints = [],
-				rectVector = [], //各条边的向量的法向量的单位向量
-				produnctLength = [],  //储存多边形相对于单位向量的点积长度
-				circleProdunct;
-
-			var circleVector = new Vector(this.x, this.y);
-
-			rectPoints[0] = new Vector(rect.x, rect.y);
-			rectPoints[1] = new Vector(rect.x + rect.width, rect.y);
-			rectPoints[2] = new Vector(rect.x + rect.width, rect.y + rect.height);
-			rectPoints[3] = new Vector(rect.x, rect.y + rect.height);
-
-			//计算矩形各个边的向量
-			for (var i = 0; i + 1 < rectPoints.length; i++) {
-				rectVector[i] = rectPoints[i+1].substract(rectPoints[i]).prependicular().normalize();
-			}
-			rectVector[3] = rectPoints[0].substract(rectPoints[3]).prependicular().normalize();
-
-			for (var i = 0; i < rectPoints.length; i++) {
-				circleProdunct = circleVector.dotProduct(rectVector[i]);  //计算圆心和单位向量的点积
-				//对矩形上的每个点求点积
-				rectPoints.forEach(function (point, key) {
-					produnctLength.push(point.dotProduct(rectVector[i]));
-				})
-				produnctLength.sort();
-				if (circleProdunct + this.r >= produnctLength[0] || circleProdunct - this.r <= produnctLength[produnctLength.length]) {
-					return true;
-				} else {
-					return false;
-				}
-			}		
-		}
+	draw(context) {
+    this.createPath(context);
+    context.fill();
 	}
 }
