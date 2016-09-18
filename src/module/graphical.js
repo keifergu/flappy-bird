@@ -7,7 +7,7 @@ class Shape {
 }
 export class Point {
 	constructor(...point) {
-		if (point[0] instanceof Vector) {
+		if (point.length == 1) {
 			this.x = point[0].x;
 			this.y = point[0].y;
 		} else {

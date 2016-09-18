@@ -1,9 +1,7 @@
-let chai = require('chai'),
-	path = require('path');
+import {should} from 'chai';
+import Vector from '../../src/module/vector.js';
 
-chai.should();
-
-let Vector  = require(path.join(__dirname,'..', '..', 'src', 'module', 'vector.js'));
+should();
 
 describe('Vector', () => {
 	describe('#constructor', () => {

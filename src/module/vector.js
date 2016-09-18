@@ -66,4 +66,11 @@ export default class Vector {
 	dotProduct(vector) {
 		return this.x * vector.x + this.y * vector.y;
 	}
+	/**
+	 * 获取法向量
+	 * @return {Vector}
+	 */
+	normal() {
+    return this.prependicular().normalize();
+	}
 }
