@@ -5,20 +5,21 @@ class Shape {
 
 	// methods
 }
-class Rect extends Shape {
+export class Polygon extends Shape {
 
  	constructor(x, y, width, height) {
-	this.x = x;
-	this.y = y;
-	this.vx = 0;
-	this.vy = 0;
-	this.width  = width;
-	this.height = height;
-	this.color  = 'black';
-	this.points = [[this.x, this.y],
-								 [this.x + this.width, y],
-								 [this.x + this.width, this.y + this.height],
-								 [this.x, this.y + this.height]];
+ 		super();
+		this.x = x;
+		this.y = y;
+		this.vx = 0;
+		this.vy = 0;
+		this.width  = width;
+		this.height = height;
+		this.color  = 'black';
+		this.points = [[this.x, this.y],
+									 [this.x + this.width, y],
+									 [this.x + this.width, this.y + this.height],
+									 [this.x, this.y + this.height]];
 	}
 
 	setColor(color) {
@@ -47,8 +48,9 @@ class Rect extends Shape {
 	}
 }
 
-class Circle extends Shape {
+export class Circle extends Shape {
 	constructor(x, y, r) {
+		super();
 		this.x = x;
 		this.y = y;
 		this.r = r;

@@ -1,11 +1,24 @@
 class Vector {
-	constructor(x, y) {
-		this.x = x;
-		this.y = y;
+	constructor(...point) {
+		if (point[0] instanceof Vector) {
+			this.x = point[0].x;
+			this.y = point[0].y;
+		} else {
+			this.x = point[0];
+			this.y = point[1];
+		}
+	}
+
+	add(vector) {
+	  return new Vector(this.x + vector.x, this.y + vector.y);
 	}
 
 	substract(vector) {
 		return new Vector(this.x - vector.x, this.y - vector.y);
+	}
+
+	edge(vector) {
+		return this.subtract(vector);
 	}
 
 	prependicular() {
@@ -25,8 +38,10 @@ class Vector {
 		}
 		return v;
 	}
-	
+
 	dotProduct(vector) {
 		return this.x * vector.x + this.y * vector.y;
 	}
 }
+
+module.exports = Vector;
