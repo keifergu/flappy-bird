@@ -29,7 +29,7 @@ export default class Vector {
 	 * @return {[type]}        新向量，由传入的点指向本身的点
 	 */
 	edge(vector) {
-		return this.subtract(vector);
+		return this.substract(vector);
 	}
 	/**
 	 * 求该向量的垂直向量

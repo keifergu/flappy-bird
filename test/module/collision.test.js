@@ -13,15 +13,18 @@ describe('Collision', () => {
 	         new Point(490, 100), new Point(450, 10)]
 	    ],
 	    c1 = new Circle(50, 50, 40, {x: 100, y: 100}),
-	    c2 = new Circle(100, 200, 20),
+	    c2 = new Circle(250, 200, 20),
 	    p1 = new Polygon(polygonPoints[0], {x: -50, y: 80}),
-	    p2 = new Polygon(polygonPoints[1], {x: 30, y: -60});
+	    p2 = new Polygon(polygonPoints[1], {x: 30, y: -60}),
+
+	    p1Normals = [[-120,0],[0,100],[100,50],[20,-150]];
 
 	describe('#polygon with circle', () => {
 		it('get polygon`s normal vectors', () => {
-			let normals = collision.getPolygonNormal(c1);
-			normals.forEach((normal) => {
-
+			let normals = collision.getPolygonNormal(p1);
+			normals.forEach((vector, i) => {
+				vector.x.should.to.be.equal(p1Normals[i][0]);
+				vector.y.should.to.be.equal(p1Normals[i][1]);
 			})
 		});
 	});
