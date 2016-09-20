@@ -36,5 +36,9 @@ describe('Vector', () => {
 			result.x.should.to.be.equal(140);
 			result.y.should.to.be.equal(150);
 		});
+		it('dotProduct', () => {
+			let result = v1.dotProduct(v2);
+			result.should.to.be.equal(7600);
+		});
 	});
 });
