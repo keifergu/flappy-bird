@@ -11,17 +11,17 @@ export function collision(theShape, anotherShape) {
  * @return {Boolean}         true表示碰撞，false表示未碰撞
  */
 export function polygonCollidesWithCircle(polygon, circle) {
-	let projection1, projection2, overlap,
+	let projection1, projection2, overlap, minOverlap = Infinity,
 			normalVectors = getPolygonNormal(polygon);
-	normalVectors.forEach((normal) => {
+	for(let normal of normalVectors) {
 		projection1 = getPolygonProjection(polygon, normal);
 		projection2 = getCircleProjection(circle, normal);
 
 		overlap = Math.min(projection1.max, projection2.max) - Math.max(projection1.min, projection2.min);
-		if (overlap >= 0) {
+		if (overlap >= 0 ) {
 			return true;
 		}
-	})
+	}
 	return false;
 }
 /**

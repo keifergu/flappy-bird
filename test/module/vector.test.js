@@ -40,5 +40,10 @@ describe('Vector', () => {
 			let result = v1.dotProduct(v2);
 			result.should.to.be.equal(7600);
 		});
+		it('edge', () => {
+			let result = v1.edge(v2);
+			let res = [result.x, result.y];
+			res.should.to.be.deep.equal([140, 150]);
+		});
 	});
 });

@@ -17,7 +17,7 @@ describe('Collision', () => {
 	    p1 = new Polygon(polygonPoints[0], {x: -50, y: 80}),
 	    p2 = new Polygon(polygonPoints[1], {x: 30, y: -60}),
 
-	    p1Normals = [[-120,0],[0,100],[100,50],[20,-150]];
+	    p1Normals = [[-1,0],[0,1],[0.8944271909999159,0.4472135954999579],[0.13216372009101796,-0.9912279006826346]];
 
 	describe('#polygon with circle', () => {
 		it('get polygon`s normal vectors', () => {
@@ -26,6 +26,20 @@ describe('Collision', () => {
 				vector.x.should.to.be.equal(p1Normals[i][0]);
 				vector.y.should.to.be.equal(p1Normals[i][1]);
 			})
+		});
+		it('get polygon`s projection', () => {
+			let projections = collision.getPolygonProjection(p1,{x:-1,y:0});
+			projections.should.to.be.deep.equal({max:-250,min:-400});
+		});
+		it('collision ', () => {
+			let res1 = collision.polygonCollidesWithCircle(p1,c2);
+			let res2 = collision.polygonCollidesWithCircle(p1,c1);
+			res1.should.to.be.equal(true);
+			res2.should.to.be.equal(false);
+		});
+		it('circle projection', () => {
+			let res = collision.getCircleProjection(c2,{x:-1,y:0});
+			res.should.to.be.deep.equal({max:-230,min:-270});
 		});
 	});
 
