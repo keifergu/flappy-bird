@@ -21,26 +21,25 @@ describe('Collision', () => {
 
 	describe('#polygon with circle', () => {
 		it('get polygon`s normal vectors', () => {
-			let normals = collision.getPolygonNormal(p1);
+			let normals = p1.getPolygonNormal();
 			normals.forEach((vector, i) => {
 				vector.x.should.to.be.equal(p1Normals[i][0]);
 				vector.y.should.to.be.equal(p1Normals[i][1]);
 			})
 		});
 		it('get polygon`s projection', () => {
-			let projections = collision.getPolygonProjection(p1,{x:-1,y:0});
+			let projections = p1.getPolygonProjection({x:-1,y:0});
 			projections.should.to.be.deep.equal({max:-250,min:-400});
 		});
 		it('collision ', () => {
-			let res1 = collision.polygonCollidesWithCircle(p1,c2);
-			let res2 = collision.polygonCollidesWithCircle(p1,c1);
+			let res1 = p1.polygonCollidesWithCircle(c2);
+			let res2 = p1.polygonCollidesWithCircle(c1);
 			res1.should.to.be.equal(true);
 			res2.should.to.be.equal(false);
 		});
 		it('circle projection', () => {
-			let res = collision.getCircleProjection(c2,{x:-1,y:0});
+			let res = c2.getCircleProjection({x:-1,y:0});
 			res.should.to.be.deep.equal({max:-230,min:-270});
 		});
 	});
-
 });

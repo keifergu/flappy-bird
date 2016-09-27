@@ -1,4 +1,4 @@
-class Shape {
+export class Shape {
 	constructor(args) {
 		// code
 	}
