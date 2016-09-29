@@ -5,7 +5,7 @@ Object.assign(Shape.prototype, {
 	collision(theShape, anotherShape) {
 		return polygonCollidesWithCircle(theShape, anotherShape);
 	}
-})
+});
 
 Object.assign(Polygon.prototype, {
 	/**
@@ -50,7 +50,7 @@ Object.assign(Polygon.prototype, {
 			}
 
 			normalVector.push(v1.edge(v2).normal());
-		})
+		});
 
 		return normalVector;
 	},
@@ -68,15 +68,15 @@ Object.assign(Polygon.prototype, {
 			v.x = point.x;
 			v.y = point.y;
 			projections.push(v.dotProduct(normal));
-		})
+		});
 		min = Math.min(...projections);
 		max = Math.max(...projections);
 		return {
 			max,
 			min,
-		}
+		};
 	},
-})
+});
 
 Object.assign(Circle.prototype, {
 	getCircleProjection(normal) {
@@ -86,6 +86,6 @@ Object.assign(Circle.prototype, {
 		return {
 			max : projection + this.r,
 			min : projection - this.r
-		}
+		};
 	}
-})
+});

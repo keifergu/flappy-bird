@@ -1,5 +1,5 @@
 import {should} from 'chai';
-import * as collision from '../../src/module/collision.js';
+import * as Collision from '../../src/module/collision.js';
 import {Point, Polygon, Circle} from '../../src/module/graphical.js';
 
 should();

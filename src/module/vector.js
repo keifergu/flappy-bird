@@ -52,7 +52,7 @@ export default class Vector {
 	normalize() {
 		var v = new Vector(0, 0),
 			m = this.getMagnitude();
-		if (m != 0) {
+		if (m !== 0) {
 			v.x = this.x / m;
 			v.y = this.y / m;
 		}

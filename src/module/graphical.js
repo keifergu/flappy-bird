@@ -48,11 +48,25 @@ export class Polygon extends Shape {
 	    this.points.push(new Point(x, y));
 	}
 
-	move(dX, dY) {
-    this.points.forEach((point) => {
-        point.x += dX;
-        point.y += dY;
-    });
+	setSpeed(vx, vy) {
+		this.v.x = vs;
+		this.v.y = vy;
+		return this;
+	}
+
+	move(...distance) {
+		if (distance.length === 2) {
+	    this.points.forEach((point) => {
+	        point.x += distance[0];
+	        point.y += distance[1];
+	    });
+	  } else {
+	  	this.points.forEach((point) => {
+	  	    point.x += this.v.x;
+	  	    point.y += this.v.y;
+	  	});
+	  }
+    return this;
 	}
 
 	createPath(context) {
@@ -60,7 +74,7 @@ export class Polygon extends Shape {
     this.points.forEach((point) => {
         context.lineTo(point.x, point.y);
     });
-    context.closePath;
+    context.closePath();
 	}
 
 	draw(context) {
@@ -84,9 +98,15 @@ export class Circle extends Shape {
 		this.v = velocity;
 	}
 
-	move(dX, dY) {
-    this.x += dX;
-    this.y += dY;
+	move(...distance) {
+		if (distance.length === 2) {
+    	this.x += distance[0];
+    	this.y += distance[1];
+		} else {
+			this.x += this.v.x;
+			this.y += this.v.y;
+		}
+    return this;
 	}
 
 	createPath(context) {
