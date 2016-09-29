@@ -80,8 +80,9 @@ Object.assign(Polygon.prototype, {
 
 Object.assign(Circle.prototype, {
 	getCircleProjection(normal) {
-		let projection,
-				v = new Vector(this.x, this.y);
+		let projection;
+		let	point = this.points[0];
+		let	v = new Vector(point.x, point.y);
 		projection = v.dotProduct(normal);
 		return {
 			max : projection + this.r,
