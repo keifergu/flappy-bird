@@ -25,7 +25,7 @@ describe('Collision', () => {
 			normals.forEach((vector, i) => {
 				vector.x.should.to.be.equal(p1Normals[i][0]);
 				vector.y.should.to.be.equal(p1Normals[i][1]);
-			})
+			});
 		});
 		it('get polygon`s projection', () => {
 			let projections = p1.getPolygonProjection({x:-1,y:0});
