@@ -1,19 +1,18 @@
 import {Shape, Polygon, Circle}  from "./graphical.js";
 import Vector  from "./vector.js";
 
-Object.assign(Shape.prototype, {
-	collision(theShape, anotherShape) {
-		return polygonCollidesWithCircle(theShape, anotherShape);
-	}
-});
-
 Object.assign(Polygon.prototype, {
+	collision(otherShape) {
+		if (otherShape instanceof Circle) {
+			return this.collisionWithCircle(otherShape);
+		}
+	},
 	/**
 	 * 多边形与圆形的碰撞检测
 	 * @param  {Circle} circle   圆形
 	 * @return {Boolean}         true表示碰撞，false表示未碰撞
 	 */
-	polygonCollidesWithCircle(circle) {
+	collisionWithCircle(circle) {
 		let projection1, projection2, overlap, minOverlap = Infinity,
 				normalVectors = this.getPolygonNormal();
 		for(let normal of normalVectors) {

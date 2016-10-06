@@ -12,10 +12,10 @@ describe('Collision', () => {
 	        [new Point(400, 130), new Point(400, 200),
 	         new Point(490, 100), new Point(450, 10)]
 	    ],
-	    c1 = new Circle(50, 50, 40, {x: 100, y: 100}),
+	    c1 = new Circle(50, 50, 40, {vx: 100, vy: 100}),
 	    c2 = new Circle(250, 200, 20),
-	    p1 = new Polygon(polygonPoints[0], {x: -50, y: 80}),
-	    p2 = new Polygon(polygonPoints[1], {x: 30, y: -60}),
+	    p1 = new Polygon(polygonPoints[0], {vx: -50, vy: 80}),
+	    p2 = new Polygon(polygonPoints[1], {vx: 30, vy: -60}),
 
 	    p1Normals = [[-1,0],[0,1],[0.8944271909999159,0.4472135954999579],[0.13216372009101796,-0.9912279006826346]];
 
@@ -32,8 +32,8 @@ describe('Collision', () => {
 			projections.should.to.be.deep.equal({max:-250,min:-400});
 		});
 		it('collision ', () => {
-			let res1 = p1.polygonCollidesWithCircle(c2);
-			let res2 = p1.polygonCollidesWithCircle(c1);
+			let res1 = p1.collision(c2);
+			let res2 = p1.collision(c1);
 			res1.should.to.be.equal(true);
 			res2.should.to.be.equal(false);
 		});
