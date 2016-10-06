@@ -34,6 +34,15 @@ export class Shape {
 	  }
     return this;
 	}
+	moveTo(x = 0, y = 0) {
+		let dx = x - this.points[0].x,
+			dy = y - this.points[0].y;
+		this.points.forEach((point) => {
+		    point.x += dx;
+		    point.y += dy;
+		});
+		return this;
+	}
 	/**
 	 * 更新speed值的方法
 	 * @param  {Number} vx 在x方向的速度
@@ -104,10 +113,10 @@ export class Polygon extends Shape {
 }
 
 export class Rect extends Polygon {
-	constructor(x, y, width, height) {
+	constructor(x, y, width, height, ...args) {
 		let points = [new Point(x, y), new Point(x + width, y),
 									new Point(x + width, y + height), new Point(x, y + height)];
-		super(points);
+		super(points, ...args);
 	}
 }
 
@@ -135,5 +144,13 @@ export class Circle extends Shape {
 	draw(context) {
     this.createPath(context);
     context.fill();
+	}
+
+	get bottomX() {
+		return this.points[0].x + this.r;
+	}
+
+	get bottomY() {
+		return this.points[0].y + this.r;
 	}
 }
