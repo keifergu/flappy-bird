@@ -20,11 +20,11 @@ Object.assign(Polygon.prototype, {
 			projection2 = circle.getCircleProjection(normal);
 
 			overlap = Math.min(projection1.max, projection2.max) - Math.max(projection1.min, projection2.min);
-			if (overlap >= 0 ) {
-				return true;
+			if (overlap < 0 ) {
+				return false;
 			}
 		}
-		return false;
+		return true;
 	},
 	/**
 	 * 获得该多边形的所有边的法向量
