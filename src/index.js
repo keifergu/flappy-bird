@@ -34,7 +34,7 @@ function graphicalDraw() {
 	}
 }
 
-key.on("a", () => {
+key.on("space", () => {
 	c1.speed(0, -8);
 });
 
