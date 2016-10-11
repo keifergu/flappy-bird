@@ -1,5 +1,6 @@
 import {Point, Polygon, Circle, Rect}  from './module/graphical.js';
 import * as Collision  from './module/collision.js';
+import {key} from "./module/keyboard.js";
 
 let canvas = document.getElementById('canvas');
 let ctx = canvas.getContext('2d');
@@ -28,9 +29,12 @@ function graphicalDraw() {
 	if (c1.bottomY >= 600) {
 		c1.speed(0, 0).moveTo(50, 560);
 	}
+	if (p1.collision(c1) || p2.collision(c1)) {
+		console.log('collision');
+	}
 }
 
-canvas.addEventListener("click", () => {
+key.on("a", () => {
 	c1.speed(0, -8);
 });
 
