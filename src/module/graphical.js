@@ -146,11 +146,17 @@ export class Circle extends Shape {
     context.fill();
 	}
 
-	get bottomX() {
-		return this.points[0].x + this.r;
+	get bottom() {
+		return {
+			x: this.points[0].x ,
+			y: this.points[0].y + this.r
+		}
 	}
 
-	get bottomY() {
-		return this.points[0].y + this.r;
+	get left() {
+		return {
+			x: this.points[0].x - this.r ,
+			y: this.points[0].y
+		}
 	}
 }
