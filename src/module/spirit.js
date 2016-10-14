@@ -22,20 +22,20 @@ let defaultAction = {
 let actionContainer = {};
 
 Spirit.addAction(defaultAction.jump, (distance = 10) => {
-	let ySpeed = Math.sqrt(2 * distance * this._spirit.speed.ay);
+	let ySpeed = -Math.sqrt(2 * distance * this._spirit.speed.ay);
 	this._spirit.speed.vy = ySpeed;
 })
 
 export default class Spirit {
-	constructor({shape = spiritShapeWord.rect, base = [0, 0, 10, 10], speed = 5, img, context}) {
+	constructor({shape = spiritShapeWord.rect, base = [0, 0, 10, 10], speed = 5, imgPath, context}) {
 		this.base = base;
 		this.shape = shape;
 		this.speed = speed;
 		this.context = context;
-		this._spirit = undefined;
-		if (img !== null) {
+		this._spirit = null;
+		if (imgPath !== null) {
 			this.img = new Image();
-			this.img.src = img;
+			this.img.src = imgPath;
 		}
 	}
 	
@@ -48,7 +48,7 @@ export default class Spirit {
 			throw "must init the canvas context";
 		}
 		//当spirit没有创建实例时，新建实例
-		if (_spirit === undefined) {
+		if (_spirit === null) {
 			switch(this.shape) {
 				case spiritShapeWord.rect:
 					this._spirit = new Rect(..._base);
@@ -102,8 +102,8 @@ export default class Spirit {
 		return this._spirit.left();
 	}
 
-	get up() {
-		return this._spirit.up();
+	get top() {
+		return this._spirit.top();
 	}
 
 	get right() {

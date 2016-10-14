@@ -1,3 +1,5 @@
+import Draw from "./draw.js";
+
 let pSymbol = {
 	border: Symbol("border"),
 }
@@ -74,15 +76,7 @@ export class Polygon extends Shape {
  	constructor(points = [], speed = {}) {
  		super(points, speed);
  		this._border = this[pSymbol.border]();
-	}
-
-	draw(context) {
-    context.beginPath();
-    this.points.forEach((point) => {
-        context.lineTo(point.x, point.y);
-    });
-    context.closePath();
-    context.fill();
+ 		this._pointsArray = null;
 	}
 
 	[pSymbol.border]() {
@@ -92,30 +86,42 @@ export class Polygon extends Shape {
 			maxY = -Infinity,
 			leftIndex,
 			topIndex,
-			rigthIndex,
+			rightIndex,
 			bottomIndex,
 			_points = this.points;
 		_points.forEach(({x, y}, index) => {
-			minX = minX <= x ? minX : x;
-			leftIndex = minX <= x ? leftIndex : index;
-
-			minY = minY <= y ? minY : y;
-			topIndex = minY <= y ? topIndex : index;
-
-			maxX = maxX >= x ? maxX : x;
-			rigthIndex = maxX >= x ? rigthIndex : index;
-
-			maxY = maxY >= y ? maxY : y;
-			bottomIndex = maxY >= y ? bottomIndex : index;
+			if (minX >= x) {
+				minX = x;
+				leftIndex = index;	
+			}
+			if (minY >= y) {
+				minY = y;
+				topIndex = 	index;
+			}
+			if (maxX <= x) {
+				maxX = x;
+				rightIndex = index; 	
+			}
+			if (maxY <= y) {
+				maxY = y;
+				bottomIndex = index;
+			}
 		})
 		return {
-			left: _points[leftIndex],
-			rigth: _points[rigthIndex],
 			top: _points[topIndex],
+			left: _points[leftIndex],
+			right: _points[rightIndex],
 			bottom: _points[bottomIndex],
 		};
 	}
 
+	draw(context) {
+		let _pointsArray = this._pointsArray;
+		if (_pointsArray === null) {
+			this._pointsArray = Array.from(this.points, (point) => [point.x, point.y])
+		}
+		Draw.polygon(_pointsArray, context);
+	}
 	get top() {
 		return this._border.top;
 	}
@@ -155,11 +161,16 @@ export class Circle extends Shape {
 	}
 
 	draw(context) {
-		let point = this.points[0];
-    context.beginPath();
-    context.arc(point.x, point.y, this.r, 0, Math.PI * 2, false);
-    context.closePath();
-    context.fill();
+		let _point = this.points[0];
+		Draw.circle(_point.x, _point.y, this.r, context);
+	}
+
+	get top() {
+		let _point = this.points[0];
+		return {
+			x: _point.x,
+			y: _point.y - this.r,
+		};
 	}
 
 	get bottom() {
@@ -173,6 +184,14 @@ export class Circle extends Shape {
 		return {
 			x: this.points[0].x - this.r ,
 			y: this.points[0].y
+		};
+	}
+
+	get right() {
+		let _point = this.points[0];
+		return {
+			x: _point.x + this.r,
+			y: _point.y,
 		};
 	}
 }
