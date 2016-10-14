@@ -1,39 +1,36 @@
+let pSymbol = {
+	border: Symbol("border"),
+}
 export class Shape {
 	/**
 	 * Shape基类的构造函数
 	 * @param  {Array}  points       图形的顶点的数组
-	 * @param  {Object} velocity     图形的速度的对象，vx与vy
-	 * @param  {Object} acceleration 图形的加速度的对象，ax与ay
+	 * @param  {Object} speed		     包含速度参数vx,vy,加速度参数ax.ay
 	 * @return {[type]}              
 	 */
-	constructor(points = [], velocity = {vx:0, vy:0}, acceleration = {ax:0, ay:0}) {
+	constructor(points = [], {vx = 0, vy = 0, ax = 0, ay = 9.8} = {}) {
 		this.points = points;
-		this.v = velocity;
-		this.a = acceleration;
+		this.speed = {vx, vy, ax, ay};
 	}
 	/**
-	 * 使图形的点的x和y坐标改变的函数;
-	 * 如果不传入参数，则根据内部的速度值vx和vy更新坐标，同时vx和vy会根据加速度ax和ay更新自己;
-	 * 如果传入参数，（dx， dy），则在原左边值上加上传入的参数值
-	 * @param  {...[type]} distance 传入参数则为（dx， dy）格式
-	 * @return {this}             返回本身，使可以级联调用
+	 * 自动变换坐标函数，根据内部的加速度以及速度值，更新坐标值
+	 * @return {this} 返回实例本身
 	 */
-	move(...distance) {
-		this.v.vx += this.a.ax;
-		this.v.vy += this.a.ay;
-		if (distance.length === 2) {
-	    this.points.forEach((point) => {
-	        point.x += distance[0];
-	        point.y += distance[1];
-	    });
-	  } else {
-	  	this.points.forEach((point) => {
-	  	    point.x += this.v.vx;
-	  	    point.y += this.v.vy;
-	  	});
-	  }
+	move() {
+		this.speed.vx += this.speed.ax;
+		this.speed.vy += this.speed.ay;
+  	this.points.forEach((point) => {
+  	    point.x += this.speed.vx;
+  	    point.y += this.speed.vy;
+  	});
     return this;
 	}
+	/**
+	 * 将图像移动到坐标，points[0]为基本点
+	 * @param  {Number} x 目标位置的X坐标
+	 * @param  {Number} y 目标位置的Y坐标
+	 * @return {[type]}   返回实例本身
+	 */
 	moveTo(x = 0, y = 0) {
 		let dx = x - this.points[0].x,
 			dy = y - this.points[0].y;
@@ -41,17 +38,6 @@ export class Shape {
 		    point.x += dx;
 		    point.y += dy;
 		});
-		return this;
-	}
-	/**
-	 * 更新speed值的方法
-	 * @param  {Number} vx 在x方向的速度
-	 * @param  {Number} vy 在y方向的速度
-	 * @return {this}      返回实例本身，级联
-	 */
-	speed(vx = 0, vy = 0) {
-		this.v.vx = vx;
-		this.v.vy = vy;
 		return this;
 	}
 }
@@ -83,32 +69,67 @@ export class Polygon extends Shape {
 	/**
 	 * 多边形类的构造函数
 	 * @param  {Array}  points   Point类型的数组
-	 * @param  {Object} velocity x轴和y轴的速度
+	 * @param  {Object} speed    包含速度参数vx,vy,加速度参数ax.ay
 	 */
- 	constructor(points = [], velocity = {vx:0, vy:0}, acceleration = {ax:0, ay:0}) {
- 		super(points, velocity, acceleration);
-	}
-	/**
-	 * 为多边形添加一个点
-	 * @param {Number} x x轴位置
-	 * @param {Number} y y轴位置
-	 */
-	addPoint(x = 0, y = 0) {
-	  this.points.push(new Point(x, y));
-	  return this;
+ 	constructor(points = [], speed = {}) {
+ 		super(points, speed);
+ 		this._border = this[pSymbol.border]();
 	}
 
-	createPath(context) {
+	draw(context) {
     context.beginPath();
     this.points.forEach((point) => {
         context.lineTo(point.x, point.y);
     });
     context.closePath();
+    context.fill();
 	}
 
-	draw(context) {
-    this.createPath(context);
-    context.fill();
+	[pSymbol.border]() {
+		let minX = Infinity,
+			minY = Infinity,
+			maxX = -Infinity,
+			maxY = -Infinity,
+			leftIndex,
+			topIndex,
+			rigthIndex,
+			bottomIndex,
+			_points = this.points;
+		_points.forEach(({x, y}, index) => {
+			minX = minX <= x ? minX : x;
+			leftIndex = minX <= x ? leftIndex : index;
+
+			minY = minY <= y ? minY : y;
+			topIndex = minY <= y ? topIndex : index;
+
+			maxX = maxX >= x ? maxX : x;
+			rigthIndex = maxX >= x ? rigthIndex : index;
+
+			maxY = maxY >= y ? maxY : y;
+			bottomIndex = maxY >= y ? bottomIndex : index;
+		})
+		return {
+			left: _points[leftIndex],
+			rigth: _points[rigthIndex],
+			top: _points[topIndex],
+			bottom: _points[bottomIndex],
+		};
+	}
+
+	get top() {
+		return this._border.top;
+	}
+
+	get bottom() {
+		return this._border.bottom;
+	}
+
+	get left() {
+		return this._border.left;
+	}
+
+	get right() {
+		return this._border.right;
 	}
 }
 
@@ -126,23 +147,18 @@ export class Circle extends Shape {
 	 * @param  {Number} x        圆心的x坐标
 	 * @param  {Number} y        圆心的y坐标
 	 * @param  {Number} radius   半径
-	 * @param  {Object} velocity 速度
-	 * @param  {Object} acceleration 加速度
+	 * @param  {Object} speed 	 对象，包含速度参数vx,vy,加速度参数ax.ay
 	 */
-	constructor(x = 0, y = 0, radius = 0, velocity = {vx:0, vy:0}, acceleration = {ax:0, ay:0}) {
-		super([{x, y}], velocity, acceleration);
+	constructor(x = 0, y = 0, radius = 0, speed = {}) {
+		super([{x, y}], speed);
 		this.r = radius;
 	}
 
-	createPath(context) {
+	draw(context) {
 		let point = this.points[0];
     context.beginPath();
     context.arc(point.x, point.y, this.r, 0, Math.PI * 2, false);
     context.closePath();
-	}
-
-	draw(context) {
-    this.createPath(context);
     context.fill();
 	}
 
@@ -150,13 +166,13 @@ export class Circle extends Shape {
 		return {
 			x: this.points[0].x ,
 			y: this.points[0].y + this.r
-		}
+		};
 	}
 
 	get left() {
 		return {
 			x: this.points[0].x - this.r ,
 			y: this.points[0].y
-		}
+		};
 	}
 }

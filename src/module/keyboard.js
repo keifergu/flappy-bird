@@ -1,6 +1,6 @@
 document.onkeydown = (event) => {
 	keydown(event);	
-}
+};
 //存放订阅事件的对象，每个事件值为订阅者的函数组成的数组
 let subscribe = {};
 
@@ -10,9 +10,9 @@ let keydown = function(event) {
 	if (subscribe.hasOwnProperty(keychar)) {
 		subscribe[keychar].forEach((value, index) => {
 			value(keychar);
-		})
+		});
 	}
-}
+};
 let keyMap = {
 	"65": "A",
 	"66": "B",
@@ -71,7 +71,7 @@ let keyMap = {
 	"38":"UP",
 	"32":"SPACE",
 	"13":"ENTER",
-}
+};
 
 export let key = {
 	on: (bindKey, callback) => {
