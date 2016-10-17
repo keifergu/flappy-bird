@@ -19,6 +19,7 @@ let defaultAction = {
 	jump: "jump", 
 };
 
+//动作储存容器，使用静态方法`Spirt.addAction`添加动作
 let actionContainer = {};
 
 Spirit.addAction(defaultAction.jump, (distance = 10) => {
@@ -91,9 +92,18 @@ export default class Spirit {
 		return actionContainer[type];
 	}
 
+	/**
+	 * 静态方法，向Spirt类中添加动作函数
+	 * 可被所有实例访问到，也可访问所有实例的属性
+	 * 此处有潜在的安全问题，对该被添加的action函数应该作出限制
+	 * 即在调用时，只传入允许的函数，接口在以后再来设计
+	 * @param {[type]} type [description]
+	 * @param {[type]} fun  [description]
+	 */
 	static addAction(type, fun) {
 		actionContainer[type] = fun;
 	}
+
 	get bottom() {
 		return this._spirit.bottom();
 	}

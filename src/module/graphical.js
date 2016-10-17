@@ -1,8 +1,18 @@
 import Draw from "./draw.js";
+import Collision from "./collision.js";
 
-let pSymbol = {
-	border: Symbol("border"),
+const mySymbol = {
+	sData: Symbol("sData"),
+	pBorder: Symbol("pBorder"),
 }
+
+const shapeWord = {
+	Line: "line",
+	Point: "point",
+	Circle: "circle",
+	Polygon: "polygon",
+};
+
 export class Shape {
 	/**
 	 * Shape基类的构造函数
@@ -42,6 +52,24 @@ export class Shape {
 		});
 		return this;
 	}
+	/**
+	 * 私有函数，数据格式转换
+	 * 将图形类本身的数据转换为 collision 需要的格式
+	 * 接口模式，便于修改和扩展 
+	 */
+	[mySymbol.sData]() {
+		return {
+			data: this.points,
+			type: shapeWord[this.name],
+			r: this.name === "Circle" ? this.r : undefined,
+		}
+	}
+
+	collision(shape) {
+		let s1 = this[mySymbol.sData](),
+			s1 = shape[mySymbol.sData]();
+		return Collision(s1, s2);
+	}
 }
 
 export class Point {
@@ -75,11 +103,11 @@ export class Polygon extends Shape {
 	 */
  	constructor(points = [], speed = {}) {
  		super(points, speed);
- 		this._border = this[pSymbol.border]();
+ 		this._border = this[mySymbol.pBorder]();
  		this._pointsArray = null;
 	}
 
-	[pSymbol.border]() {
+	[mySymbol.pBorder]() {
 		let minX = Infinity,
 			minY = Infinity,
 			maxX = -Infinity,

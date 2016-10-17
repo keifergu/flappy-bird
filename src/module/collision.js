@@ -139,8 +139,8 @@ function dataTransfer(shape) {
 			rs = {
 				type,
 				data: {
-					x: shape.x,
-					y: shape.y,
+					x: shape.points[0].x,
+					y: shape.points[0].y,
 					r: shape.r,
 				},
 			};
