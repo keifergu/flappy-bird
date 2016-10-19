@@ -58,8 +58,9 @@ export class Shape {
 	 * 接口模式，便于修改和扩展 
 	 */
 	[mySymbol.sData]() {
+		console.log(this.points);
 		return {
-			data: this.points,
+			points: this.points,
 			type: shapeWord[this.name],
 			r: this.name === "Circle" ? this.r : undefined,
 		}
@@ -67,7 +68,7 @@ export class Shape {
 
 	collision(shape) {
 		let s1 = this[mySymbol.sData](),
-			s1 = shape[mySymbol.sData]();
+			s2 = shape[mySymbol.sData]();
 		return Collision(s1, s2);
 	}
 }

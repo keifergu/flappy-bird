@@ -164,6 +164,8 @@ function dataTransfer(shape) {
 }
 
 export default function collision(s1 = {}, s2 = {}) {
+	console.log(s1);
+	console.log(s2);
 	s1 = dataTransfer(s1);
 	s2 = dataTransfer(s2);
 	console.log(s1.data+s2.data)
