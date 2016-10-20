@@ -58,11 +58,11 @@ export class Shape {
 	 * 接口模式，便于修改和扩展 
 	 */
 	[mySymbol.sData]() {
-		console.log(this.points);
+		let className = this.constructor.name;
 		return {
 			points: this.points,
-			type: shapeWord[this.name],
-			r: this.name === "Circle" ? this.r : undefined,
+			type: shapeWord[className],
+			r: className === "Circle" ? this.r : undefined,
 		}
 	}
 

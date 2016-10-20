@@ -62,6 +62,15 @@ describe('Graphical ', () => {
 			p2.move();
 			p2.points.should.to.be.deep.equal([new Point(260, 140), new Point(260, 260), new Point(360, 260), new Point(410, 160)]);
 		});
+		it('should collision with circle', () => {
+			let res1, res2, 
+			  c1 = new Circle(50, 40, 40),
+			  c2 = new Circle(250, 240, 20),
+				p1 = new Polygon(polygonPoints[0]);
+			res1 = p1.collision(c1);
+			res2 = p1.collision(c2);
+			[res1, res2].should.to.be.deep.equal([false, true]);
+		});
 	});
 
 	describe('#Circle', () => {

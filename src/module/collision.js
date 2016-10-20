@@ -158,17 +158,14 @@ function dataTransfer(shape) {
 			};
 			break;
 		default:
-			throw "the `shape.type` must belong to " + Object.values(shapeWord);
+			throw shape.type + " of the `shape.type` must belong to ";
 	}
 	return rs;
 }
 
 export default function collision(s1 = {}, s2 = {}) {
-	console.log(s1);
-	console.log(s2);
 	s1 = dataTransfer(s1);
 	s2 = dataTransfer(s2);
-	console.log(s1.data+s2.data)
 	// 使用‘s1.type’和 's2.type'去动态的调用方法，避免了大量的switch,case语句
 	return collisionObject[s1.type + "_" + s2.type](s1, s2);
 }
