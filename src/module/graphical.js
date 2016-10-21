@@ -149,7 +149,7 @@ export class Polygon extends Shape {
 		if (_pointsArray === null) {
 			this._pointsArray = Array.from(this.points, (point) => [point.x, point.y])
 		}
-		Draw.polygon(_pointsArray, context);
+		Draw.polygon(this._pointsArray, context);
 	}
 	get top() {
 		return this._border.top;

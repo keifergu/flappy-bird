@@ -1,5 +1,5 @@
-import {Shape, Polygon, Circle}  from "./graphical.js";
-import * as Collision from "collision.js";
+import {Shape, Polygon, Circle, Rect}  from "./graphical.js";
+import * as Collision from "./collision.js";
 
 let spiritShapeWord = {
 	rect: "rect",
@@ -22,11 +22,6 @@ let defaultAction = {
 //动作储存容器，使用静态方法`Spirt.addAction`添加动作
 let actionContainer = {};
 
-Spirit.addAction(defaultAction.jump, (distance = 10) => {
-	let ySpeed = -Math.sqrt(2 * distance * this._spirit.speed.ay);
-	this._spirit.speed.vy = ySpeed;
-})
-
 export default class Spirit {
 	constructor({shape = spiritShapeWord.rect, base = [0, 0, 10, 10], speed = 5, imgPath, context}) {
 		this.base = base;
@@ -34,7 +29,7 @@ export default class Spirit {
 		this.speed = speed;
 		this.context = context;
 		this._spirit = null;
-		if (imgPath !== null) {
+		if (imgPath !== undefined) {
 			this.img = new Image();
 			this.img.src = imgPath;
 		}
@@ -61,7 +56,7 @@ export default class Spirit {
 				_context.drawImage(_img, _base[0], _base[1]);
 			}
 		}
-		_spirit.draw(_context);
+		this._spirit.draw(_context);
 	}
 
 	move(direction = moveWord.right) {
@@ -100,8 +95,8 @@ export default class Spirit {
 	 * @param {[type]} type [description]
 	 * @param {[type]} fun  [description]
 	 */
-	static addAction(type, fun) {
-		actionContainer[type] = fun;
+	static addAction(type, func) {
+		actionContainer[type] = func;
 	}
 
 	get bottom() {
@@ -120,3 +115,8 @@ export default class Spirit {
 		return this._spirit.right();
 	}
 }
+
+Spirit.addAction(defaultAction.jump, (distance = 10) => {
+	let ySpeed = -Math.sqrt(2 * distance * this._spirit.speed.ay);
+	this._spirit.speed.vy = ySpeed;
+})
