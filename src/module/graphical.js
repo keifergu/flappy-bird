@@ -107,14 +107,17 @@ export class Polygon extends Shape {
  		this._border = this[mySymbol.pBorder]();
  		this._pointsArray = null;
 	}
-
+	/**
+	 * 私有函数 计算多边形的各个方向的顶点（包含x坐标，y坐标的点）
+	 * 例如具有最大X值的点
+	 */
 	[mySymbol.pBorder]() {
 		let minX = Infinity,
 			minY = Infinity,
 			maxX = -Infinity,
 			maxY = -Infinity,
-			leftIndex,
 			topIndex,
+			leftIndex,
 			rightIndex,
 			bottomIndex,
 			_points = this.points;
@@ -145,10 +148,13 @@ export class Polygon extends Shape {
 	}
 
 	draw(context) {
+		//此处使用this._pointArray 的原因缓存数组结果，下次直接调用，不用计算
+		//但是我觉得这所能起到的优化作用微乎其微，以后的版本可以去除这个变量
 		let _pointsArray = this._pointsArray;
 		if (_pointsArray === null) {
 			this._pointsArray = Array.from(this.points, (point) => [point.x, point.y])
 		}
+		//上一个版本这里的bug是因为没有考虑到值拷贝，初始是_pointsArray是null
 		Draw.polygon(this._pointsArray, context);
 	}
 	get top() {
