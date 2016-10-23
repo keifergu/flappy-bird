@@ -45,10 +45,18 @@ export default class Spirit {
 		this.shape = shape;
 		this.speed = speed;
 		this.context = context;
-		this._spirit = undefined;
+		// 检测是否传入类图片路径，传入类则新建图片资源
 		if (imgPath !== undefined) {
 			this.img = new Image();
 			this.img.src = imgPath;
+		}
+		// 根据传入的类型，新建精灵的图形实例
+		switch(this.shape) {
+			case spiritShapeWord.rect:
+				this._spirit = new Rect(...this.base);
+				break;
+			default:
+				throw "请输入正确的精灵类型";
 		}
 	}
 	
@@ -63,13 +71,6 @@ export default class Spirit {
 			_context = this.context;
 		if (_context === undefined) {
 			throw "must init the canvas context";
-		}
-		//当spirit没有创建实例时，新建实例
-		if (_spirit === undefined) {
-			switch(this.shape) {
-				case spiritShapeWord.rect:
-					this._spirit = new Rect(..._base);
-			}
 		}
 		//存在图像则绘制图像，只加载一次图像
 		if (_img !== undefined) {
@@ -106,8 +107,14 @@ export default class Spirit {
 		this._spirit.move();
 	}
 
+	moveTo(x = 0, y = 0) {
+		this._spirit.moveTo(x, y)
+		return this;
+	}
+
 	action(type = "") {
-		return actionContainer[type];
+		console.log(this);
+		actionContainer[type].apply(this, Array.from(arguments).slice(1));
 	}
 
 	/**
@@ -123,24 +130,26 @@ export default class Spirit {
 	}
 
 	get bottom() {
-		return this._spirit.bottom();
+		return this._spirit.bottom;
 	}
 
 	get left() {
-		return this._spirit.left();
+		return this._spirit.left;
 	}
 
 	get top() {
-		return this._spirit.top();
+		return this._spirit.top;
 	}
 
 	get right() {
-		return this._spirit.right();
+		return this._spirit.right;
 	}
 }
 // 添加默认的jump动作
+// 此处使用 function 
 // bug： 此方法的使用在class之前，原因是class不会变量提升，必须在定义后使用
-Spirit.addAction(defaultAction.jump, (distance = 10) => {
+Spirit.addAction(defaultAction.jump, function(distance = 10) {
+	this._spirit.speed = {ay: 5};
 	let ySpeed = -Math.sqrt(2 * distance * this._spirit.speed.ay);
-	this._spirit.speed.vy = ySpeed;
+	this._spirit.speed = {vy: ySpeed};
 })

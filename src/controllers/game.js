@@ -1,78 +1,79 @@
 import Spirit from "../module/spirit.js";
+import {key} from "../module/keyboard.js";
 
-export default class Game {
-	constructor() {
-		this.context = undefined;
-	}
+let grade, width, height, context,
+	c1, p1, p2,
+	fp1 = true,
+	fp2 = true;
 
-	init(canvas) {
-		this.width = canvas.width;
-		this.height = canvas.height;
-		this.context = canvas.getContext('2d');
-	}
-	
-	run() {
-		let c1 = new Spirit({
-			shape: "rect", 
-			context: this.context,
-			base: [100, 550, 40, 40],
-			speed: 0.2,
-		});
-		let p2 = new Spirit({
-			shape: "rect", 
-			context: this.context,
-			base: [450, 550, 50, 50],
-			speed: -5,
-		});
-		let p1 = new Spirit({
-			shape: "rect", 
-			context: this.context,
-			base: [250, 550, 40, 40],
-			speed: 0.2,
-		});
-		c1.draw();
-	}
+let init = function(canvas) {
+	grade = 0;
+	width = canvas.width;
+	height = canvas.height;
+	context = canvas.getContext('2d');
+	c1 = new Spirit({
+		shape: "rect", 
+		context: context,
+		base: [100, 550, 40, 40],
+	});
+	p2 = new Spirit({
+		shape: "rect", 
+		context: context,
+		base: [450, 550, 50, 50],
+		speed: 4,
+	});
+	p1 = new Spirit({
+		shape: "rect", 
+		context: context,
+		base: [250, 550, 40, 40],
+		speed: 4,
+	});
 }
 
-let t_grade = 0;
-
-
-function gameDraw() {
-	graphicalDraw();
-	window.requestAnimationFrame(gameDraw);
+let run = function() {
+	key.on("space", () => {
+		c1.action("jump", 10);
+	})
+	screen();
 }
 
-function graphicalDraw() {
+let screen = function() {
+	let ctx = context;
 	ctx.clearRect(0, 0, 600, 600);
 	ctx.font = "48px serif";
-	ctx.fillText(t_grade, 10, 50);
-	p1.speed(-5, 0).move().draw(ctx);
-	p2.move().draw(ctx);
-	c1.move().draw(ctx);
-	if (p1.points[0].x === 0) {
-		p1.move(cWidth,0);
-		flag_p1 = true;
-	}
-	if (p2.points[0].x === 0) {
-		p2.move(cWidth,0);
-		flag_p2 = true;
-	}
-	if (c1.bottom.y >= 600) {
-		c1.speed(0, 0).moveTo(100, 560);
-	}
-	if (p1.collision(c1) || p2.collision(c1)) {
-		// console.log('collision');
-	}	
-	grade();
+	ctx.fillText(grade, 10, 50);
+	c1.draw();
+	p1.draw();
+	p2.draw();
+	controller();
+	window.requestAnimationFrame(screen);
 }
 
-function grade() {
-	if (flag_p1 && c1.bottom.x >= p1.points[1].x) {
-		t_grade += 1;
-		flag_p1 = false;
+let controller = function() {
+	p1.move("left");
+	p2.move("left");
+	// 由于速度的关系，每一帧并不是移动一个像素，所以判定条件不能是 “== 0”
+	if (p1.left.x <= 2) {
+		fp1 = true;
+		p1.moveTo(width, p1.base[1]);
 	}
-	if (flag_p2 && c1.bottom.x >= p2.points[1].x) {
-		t_grade += 1;
-		flag_p2 = false;
+	if (p2.left.x <= 2) {
+		fp2 = true;
+		p2.moveTo(width, p2.base[1]);
+	}
+
+	// 分数判定
+	if (fp1 && c1.left.x > p1.left.x) {
+		grade += 1;
+		fp1 = false;
+	}
+	if (fp2 && c1.left.x > p2.left.x) {
+		grade += 1;
+		fp2 = false;
 	}
 }
+
+export var game =  {
+	init,
+	run,
+};

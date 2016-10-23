@@ -20,20 +20,20 @@ export class Shape {
 	 * @param  {Object} speed		     包含速度参数vx,vy,加速度参数ax.ay
 	 * @return {[type]}              
 	 */
-	constructor(points = [], {vx = 0, vy = 0, ax = 0, ay = 9.8} = {}) {
+	constructor(points = [], {vx = 0, vy = 0, ax = 0, ay = 0} = {}) {
 		this.points = points;
-		this.speed = {vx, vy, ax, ay};
+		this._speed = {vx, vy, ax, ay};
 	}
 	/**
 	 * 自动变换坐标函数，根据内部的加速度以及速度值，更新坐标值
 	 * @return {this} 返回实例本身
 	 */
 	move() {
-		this.speed.vx += this.speed.ax;
-		this.speed.vy += this.speed.ay;
+		this._speed.vx += this._speed.ax;
+		this._speed.vy += this._speed.ay;
   	this.points.forEach((point) => {
-  	    point.x += this.speed.vx;
-  	    point.y += this.speed.vy;
+  	    point.x += this._speed.vx;
+  	    point.y += this._speed.vy;
   	});
     return this;
 	}
@@ -71,6 +71,14 @@ export class Shape {
 			s2 = shape[mySymbol.sData]();
 		return Collision(s1, s2);
 	}
+
+	get speed() {
+		return this._speed;
+	}
+
+	set speed({vx = 0, vy = 0, ax = 0, ay = 0}) {
+		this._speed = {vx, vy, ax, ay};
+	}
 }
 
 export class Point {
@@ -105,7 +113,6 @@ export class Polygon extends Shape {
  	constructor(points = [], speed = {}) {
  		super(points, speed);
  		this._border = this[mySymbol.pBorder]();
- 		this._pointsArray = null;
 	}
 	/**
 	 * 私有函数 计算多边形的各个方向的顶点（包含x坐标，y坐标的点）
@@ -148,15 +155,12 @@ export class Polygon extends Shape {
 	}
 
 	draw(context) {
-		//此处使用this._pointArray 的原因缓存数组结果，下次直接调用，不用计算
-		//但是我觉得这所能起到的优化作用微乎其微，以后的版本可以去除这个变量
-		let _pointsArray = this._pointsArray;
-		if (_pointsArray === null) {
-			this._pointsArray = Array.from(this.points, (point) => [point.x, point.y])
-		}
-		//上一个版本这里的bug是因为没有考虑到值拷贝，初始是_pointsArray是null
-		Draw.polygon(this._pointsArray, context);
+		this.move();
+		let _pointsArray = Array.from(this.points, (point) => [point.x, point.y]);
+		//bug: 没有考虑到值拷贝，初始是_pointsArray是null
+		Draw.polygon(_pointsArray, context);
 	}
+
 	get top() {
 		return this._border.top;
 	}
