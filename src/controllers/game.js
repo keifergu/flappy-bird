@@ -32,7 +32,7 @@ let init = function(canvas) {
 
 let run = function() {
 	key.on("space", () => {
-		c1.action("jump", 10);
+		c1.action("jump", 200);
 	})
 	screen();
 }
@@ -62,6 +62,10 @@ let controller = function() {
 		p2.moveTo(width, p2.base[1]);
 	}
 
+	if (c1.bottom.y > 590) {
+		//c1.move("stop");
+		c1._spirit.speed = {vx:0, vy:0, ay:0};
+	}
 	// 分数判定
 	if (fp1 && c1.left.x > p1.left.x) {
 		grade += 1;

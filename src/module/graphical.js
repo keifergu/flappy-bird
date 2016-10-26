@@ -76,8 +76,12 @@ export class Shape {
 		return this._speed;
 	}
 
-	set speed({vx = 0, vy = 0, ax = 0, ay = 0}) {
-		this._speed = {vx, vy, ax, ay};
+	set speed({vx, vy, ax, ay}) {
+		let s = this._speed;
+		this._speed.vx = vx || s.vx;
+		this._speed.vy = vy || s.vy;
+		this._speed.ax = ax || s.ax;
+		this._speed.ay = ay || s.ay;
 	}
 }
 

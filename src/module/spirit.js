@@ -100,10 +100,13 @@ export default class Spirit {
 				break;
 			case moveWord.stop:
 				this._spirit.speed = {vx: 0, vy: 0};
+				break;
 			default:
 				throw "must specify a move action";
 				break;
 		}
+		// 运行该函数原因是： spirit的 move函数需要更改坐标
+		// 所以不仅要设置速度，还要调用
 		this._spirit.move();
 	}
 
@@ -113,7 +116,7 @@ export default class Spirit {
 	}
 
 	action(type = "") {
-		console.log(this);
+		 //将函数参数转换为数组，并将除开第一个参数"type"外的参数传递
 		actionContainer[type].apply(this, Array.from(arguments).slice(1));
 	}
 
@@ -149,7 +152,7 @@ export default class Spirit {
 // 此处使用 function 
 // bug： 此方法的使用在class之前，原因是class不会变量提升，必须在定义后使用
 Spirit.addAction(defaultAction.jump, function(distance = 10) {
-	this._spirit.speed = {ay: 5};
+	this._spirit.speed = {ay: 0.98};
 	let ySpeed = -Math.sqrt(2 * distance * this._spirit.speed.ay);
 	this._spirit.speed = {vy: ySpeed};
 })
