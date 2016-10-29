@@ -14,7 +14,7 @@ let spiritShapeWord = {
 
 /**
  * 说明： 移动方式的字符串集合
- * 用途： Spirit的移动方向，在实例调用是需要指定
+ * 用途： Spirit的移动方向，在实例调用时需要指定
  * @type {Object}
  */
 let moveWord = {
@@ -116,7 +116,8 @@ export default class Spirit {
 	}
 
 	action(type = "") {
-		 //将函数参数转换为数组，并将除开第一个参数"type"外的参数传递
+		//调用容器中的函数，并显示传入当前实例的this， 并传入参数
+		//将函数参数转换为数组，并将除开第一个参数"type"外的参数传递
 		actionContainer[type].apply(this, Array.from(arguments).slice(1));
 	}
 

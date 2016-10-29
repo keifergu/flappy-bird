@@ -77,6 +77,9 @@ let controller = function() {
 	}
 }
 
+let stop = function() {
+	alert("Game Over.\nYour Grade is "+grade);
+}
 export var game =  {
 	init,
 	run,
