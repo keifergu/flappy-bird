@@ -62,7 +62,6 @@ export class Shape {
 		return {
 			points: this.points,
 			type: shapeWord[className],
-			r: className === "Circle" ? this.r : undefined,
 		}
 	}
 
@@ -201,6 +200,20 @@ export class Circle extends Shape {
 	constructor(x = 0, y = 0, radius = 0, speed = {}) {
 		super([{x, y}], speed);
 		this.r = radius;
+	}
+
+	/**
+	 * 私有函数，数据格式转换
+	 * 将图形类本身的数据转换为 collision 需要的格式
+	 * 接口模式，便于修改和扩展 
+	 */
+	[mySymbol.sData]() {
+		let className = this.constructor.name;
+		return {
+			points: this.points,
+			type: shapeWord[className],
+			r: this.r,
+		}
 	}
 
 	draw(context) {
