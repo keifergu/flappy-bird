@@ -61,7 +61,7 @@ export default class Spirit {
 	}
 	
 	draw() {
-		// 此处以及其他地方在函数中保存一份this中某值的拷贝，原因有1
+		// 此处以及其他地方在函数中保存一份this中某值的拷贝，原因有
 		// 1. 减少代码量，不必在后面使用this.***来调用；
 		// 存在的问题： 由于是值拷贝，所以对内部值的赋值，不会影响到this中的值
 		// 此处很有可能出现bug，所以一定要清楚相关的值的变化
@@ -76,7 +76,7 @@ export default class Spirit {
 		if (_img !== undefined) {
 			_img.onload = () => {
 				_context.drawImage(_img, _base[0], _base[1]);
-			}
+			};
 		}
 		// bug： 曾经使用_spirit，当运行时，该值为null
 		// 原因： 上面新建类时对this的赋值体现不到_spirit值上
@@ -103,7 +103,6 @@ export default class Spirit {
 				break;
 			default:
 				throw "must specify a move action";
-				break;
 		}
 		// 运行该函数原因是： spirit的 move函数需要更改坐标
 		// 所以不仅要设置速度，还要调用
@@ -111,7 +110,7 @@ export default class Spirit {
 	}
 
 	moveTo(x = 0, y = 0) {
-		this._spirit.moveTo(x, y)
+		this._spirit.moveTo(x, y);
 		return this;
 	}
 
@@ -151,9 +150,9 @@ export default class Spirit {
 }
 // 添加默认的jump动作
 // 此处使用 function 
-// bug： 此方法的使用在class之前，原因是class不会变量提升，必须在定义后使用
+// bug： 当此方法的使用在class之前时会出错，原因是class不会变量提升，必须在定义后使用
 Spirit.addAction(defaultAction.jump, function(distance = 10) {
 	this._spirit.speed = {ay: 0.98};
 	let ySpeed = -Math.sqrt(2 * distance * this._spirit.speed.ay);
 	this._spirit.speed = {vy: ySpeed};
-})
+});

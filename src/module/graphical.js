@@ -4,7 +4,7 @@ import Collision from "./collision.js";
 const mySymbol = {
 	sData: Symbol("sData"),
 	pBorder: Symbol("pBorder"),
-}
+};
 
 const shapeWord = {
 	Line: "line",
@@ -62,7 +62,7 @@ export class Shape {
 		return {
 			points: this.points,
 			type: shapeWord[className],
-		}
+		};
 	}
 
 	collision(shape) {
@@ -105,7 +105,6 @@ export class Line extends Shape {
 		}
 	}
 
-	// methods
 }
 export class Polygon extends Shape {
 	/**
@@ -148,7 +147,7 @@ export class Polygon extends Shape {
 				maxY = y;
 				bottomIndex = index;
 			}
-		})
+		});
 		return {
 			top: _points[topIndex],
 			left: _points[leftIndex],
@@ -213,7 +212,7 @@ export class Circle extends Shape {
 			points: this.points,
 			type: shapeWord[className],
 			r: this.r,
-		}
+		};
 	}
 
 	draw(context) {

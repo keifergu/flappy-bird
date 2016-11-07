@@ -1,5 +1,9 @@
 import Vector  from "./vector.js";
 
+/**
+ * 定义外部传入参数的type字符常量
+ * @type {Object}
+ */
 const shapeWord = {
 	line: "line",
 	point: "point",
@@ -27,6 +31,11 @@ class Circle {
 		this.r = r;
 	}
 
+	/**
+	 * 获得圆在某个向量上的投影
+	 * @param  {Vector} normal 用以计算的向量
+	 * @return {Object}        max值投影的最大值，min指最小值
+	 */
 	getProjection(normal) {
 		let projection;
 		// let	point = this.points[0];
@@ -41,6 +50,7 @@ class Circle {
 
 class Polygon {
 	constructor(points = []) {
+		// 传入的参数是一个二维数组，表示多边形的每个点
 		this.points = points;
 	}
 	/**
@@ -64,7 +74,7 @@ class Polygon {
 			    v2.x = points[0].x;
 			    v2.y = points[0].y;
 			}
-
+			// 使用Vector的方法计算
 			normals.push(v1.edge(v2).normal());
 		});
 
@@ -93,13 +103,20 @@ class Polygon {
 		};
 	}
 }
+
+/**
+ * 保存所有碰撞检测主函数的对象
+ * 函数命名：按照 "图形名小写_图形名小写" 的格式
+ * 注意：所有函数定义使用箭头函数，这样绑定this，防止可能出现的问题
+ * @type {Object}
+ */
 let collisionObject = {
 	/**
 	 * 多边形与圆形的碰撞检测
 	 * @param  {Circle} circle   圆形
 	 * @return {Boolean}         true表示碰撞，false表示未碰撞
 	 */
-	polygon_circle: function(polygon, circle) {
+	polygon_circle: (polygon, circle) => {
 		let pj1, pj2, overlap,
 			c = new Circle(circle.data),
 		  p = new Polygon(polygon.data),
@@ -115,11 +132,12 @@ let collisionObject = {
 		return true;
 	},
 
-	circle_polygon: function(circle, polygon) {
+	circle_polygon: (circle, polygon) => {
 		return this.polygon_circle(polygon, circle);
 	},
 
-}
+};
+
 /**
  * 说明：接口模式，将外部传入的数据进行转换以适应内部函数使用的格式
  * 目的：考虑到现在的接口设计可能不合理，方便以后进行修改和扩展

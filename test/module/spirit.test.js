@@ -14,7 +14,7 @@ describe('#Spirit', () => {
 				shape: spiritShapeWord.rect,
 				base: [0, 0, 10, 10],
 				speed: 5,
-			})
+			});
 		});
 		it('should have a shape', () => {
 			rectSpirit.shape.should.to.be.equal(spiritShapeWord.rect);
@@ -23,7 +23,8 @@ describe('#Spirit', () => {
 			rectSpirit.base.should.to.be.deep.equal([0, 0, 10, 10]);
 		});
 		it('should creat a graphical', () => {
-			rectSpirit._spirit.__proto__.constructor.name.should.to.be.equal("Rect");
+			let spiritProto = Object.getPrototypeOf(rectSpirit._spirit);
+			spiritProto.constructor.name.should.to.be.equal("Rect");
 		});
 	});
 });

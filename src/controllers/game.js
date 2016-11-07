@@ -28,14 +28,14 @@ let init = function(canvas) {
 		base: [250, 550, 40, 40],
 		speed: 4,
 	});
-}
+};
 
 let run = function() {
 	key.on("space", () => {
 		c1.action("jump", 200);
-	})
+	});
 	screen();
-}
+};
 
 let screen = function() {
 	let ctx = context;
@@ -47,7 +47,7 @@ let screen = function() {
 	p2.draw();
 	controller();
 	window.requestAnimationFrame(screen);
-}
+};
 
 let controller = function() {
 	p1.move("left");
@@ -75,11 +75,12 @@ let controller = function() {
 		grade += 1;
 		fp2 = false;
 	}
-}
+};
 
 let stop = function() {
 	alert("Game Over.\nYour Grade is "+grade);
-}
+};
+
 export var game =  {
 	init,
 	run,

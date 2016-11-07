@@ -25,7 +25,7 @@ describe('Graphical ', () => {
 			p1.speed.vx.should.to.be.equal(20);
 			p1.speed.vy.should.to.be.equal(30);			
 		});
-	})
+	});
 
 	describe('#Polygon', () => {
 	
@@ -54,7 +54,7 @@ describe('Graphical ', () => {
 				left: {x: 250, y: 250},
 				right: {x: 400, y: 150},
 				bottom: {x: 350, y: 250},
-			}
+			};
 			border.should.to.be.deep.equal(defaultBorder);
 		});
 		it('move: should change the x & y', () => {
@@ -95,7 +95,7 @@ describe('Graphical ', () => {
 				left: {x: 0, y: 20},
 				right: {x: 40, y: 20},
 				bottom: {x: 20, y: 40},
-			}
+			};
 			border.should.to.be.deep.equal(defaultBorder);
 		});
 	});
