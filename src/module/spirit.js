@@ -1,5 +1,4 @@
 import {Shape, Polygon, Circle, Rect}  from "./graphical.js";
-import * as Collision from "./collision.js";
 
 /**
  * 说明： Spirit具有的类型的字符串

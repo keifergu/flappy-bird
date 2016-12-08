@@ -1,5 +1,5 @@
 import Draw from "./draw.js";
-import Collision from "./collision.js";
+import Collision from "polygon-collision";
 
 const mySymbol = {
 	sData: Symbol("sData"),
